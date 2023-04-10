@@ -1,19 +1,17 @@
-
 from anticaptchaofficial.turnstileproxyless import *
 import requests
 from bs4 import BeautifulSoup, ResultSet
 import os
+
 
 def anti_captcha(url, cookie, siteKey):
     solver = turnstileProxyless()
     solver.set_verbose(0)
     solver.set_key(get_anticaptcha_api_key())
     solver.set_website_url(url)
-    solver.set_cookies("PHPSESSID="+cookie)
+    solver.set_cookies("PHPSESSID=" + cookie)
     solver.set_website_key(siteKey)
 
-    # Specify softId to earn 10% commission with your app.
-    # Get your softId here: https://anti-captcha.com/clients/tools/devcenter
     solver.set_soft_id(0)
 
     token = solver.solve_and_return_solution()
@@ -23,8 +21,10 @@ def anti_captcha(url, cookie, siteKey):
         print("task finished with error " + solver.error_code)
         return
 
+
 def get_anticaptcha_api_key():
     return os.environ['ANTICAPTCHA_API_KEY']
+
 
 def get_protected_link(url, token):
     jsonObject = {'subform': 'unlock', 'cf-turnstile-response': token}
@@ -33,11 +33,14 @@ def get_protected_link(url, token):
     urls = htmlSoup.find(class_="urls")
     return urls.find("a").attrs.get("href")
 
+
 def get_cookie(firstPageResponse):
     return firstPageResponse.cookies.get("PHPSESSID")
 
+
 def get_first_page_response(url):
     return requests.get(url)
+
 
 def get_dl_protect_link(url):
     response = get_first_page_response(url)
@@ -54,7 +57,7 @@ def get_one_fichier_links(postInfoChildren: ResultSet):
 
     for tag in postInfoChildren:
         if (tag.findNext().name == 'div'):
-            if(tag.text.__contains__("1fichier")):
+            if (tag.text.__contains__("1fichier")):
                 alreadySet = True
             elif alreadySet:
                 break
@@ -69,8 +72,10 @@ def get_dl_protect_links(url):
     postInfo = htmlResponse.find(class_="postinfo")
     return get_one_fichier_links(postInfo.findAll('b'))
 
+
 def get_html(htmlText):
     return BeautifulSoup(htmlText, "html.parser")
+
 
 def find_links(url):
     dlProtectLinks = get_dl_protect_links(url)
@@ -82,9 +87,5 @@ def find_links(url):
     return "\n".join(protectedLinks)
 
 
-
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
     print(find_links("https://www.zone-telechargement.day/?p=serie&id=15501-power-saison5"))
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
