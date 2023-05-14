@@ -1,4 +1,4 @@
-from utils.zoneTelechargementLinkExtractor import ZoneTelechargementLinkExtractor
+from utils.ZoneTelechargementLinkExtractor import ZoneTelechargementLinkExtractor
 
 if __name__ == '__main__':
     ZoneTelechargementLinkExtractor().find_multi_links([

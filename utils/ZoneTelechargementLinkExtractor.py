@@ -1,9 +1,9 @@
 import requests
 
 from utils.HtmlUtils import HtmlUtils
-from utils.anti_captcha import AntiCaptcha
-from utils.dlProtect import DlProtect
-from utils.hosts.oneFichierHost import OneFichierHost
+from utils.AntiCaptcha import AntiCaptcha
+from utils.DlProtect import DlProtect
+from utils.hosts.OneFichierHost import OneFichierHost
 
 
 class ZoneTelechargementLinkExtractor:
